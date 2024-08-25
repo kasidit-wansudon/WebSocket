@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Chat</title>
+</head>
+<body>
+    <h1>WebSocket Chat</h1>
+
+    <div id="chatLog"></div>
+
+    <form id="chatForm">
+        <input type="text" id="messageInput" placeholder="Type your message..." autocomplete="off">
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        let conn = new WebSocket("ws://localhost:8080/chat");
+
+        conn.onopen = function (e) {
+            console.log("Connection established!");
+        };
+
+        conn.onmessage = function (e) {
+            let data = JSON.parse(e.data); // แปลงข้อมูล JSON ที่ได้รับ
+            let chatLog = document.getElementById("chatLog");
+            chatLog.innerHTML += "<p>[" + data.time + "] " + data.message + ` : ${data.key}` + "</p>"; // เพิ่มข้อความใหม่ใน chat log พร้อมเวลาที่ได้รับ
+        };
+
+        conn.onerror = function (error) {
+            console.error("WebSocket Error: " + error);
+        };
+
+        conn.onclose = function (e) {
+            console.log("Connection closed.");
+        };
+
+        document.getElementById("chatForm").addEventListener("submit", function (event) {
+            event.preventDefault(); // ป้องกันฟอร์มจากการรีเฟรชหน้า
+            let message = document.getElementById("messageInput").value;
+            conn.send(message); // ส่งข้อความไปยังเซิร์ฟเวอร์
+            document.getElementById("messageInput").value = ''; // เคลียร์ช่องข้อความ
+        });
+    </script>
+</body>
+</html>
