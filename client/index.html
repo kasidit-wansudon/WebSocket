@@ -16,10 +16,10 @@
     </form>
 
     <script>
-        let conn = new WebSocket("ws://localhost:8080/chat");
+        let conn = new WebSocket("ws://localhost:8090/");
 
         conn.onopen = function (e) {
-            console.log("Connection established!");
+            console.log("Connection successful!");
         };
 
         conn.onmessage = function (e) {
@@ -29,7 +29,7 @@
         };
 
         conn.onerror = function (error) {
-            console.error("WebSocket Error: " + error);
+            console.error("WebSocket Error: " + JSON.stringify(error));
         };
 
         conn.onclose = function (e) {

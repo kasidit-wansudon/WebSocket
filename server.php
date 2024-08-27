@@ -7,7 +7,7 @@ use Ratchet\Server\IoServer;
 
 require __DIR__ . '/vendor/autoload.php';
 
-class Chat implements MessageComponentInterface {
+class Main implements MessageComponentInterface {
     protected $clients;
 
     public function __construct() {
@@ -32,7 +32,7 @@ class Chat implements MessageComponentInterface {
 
         foreach ($this->clients as $client) {
             if($from == $client){
-                $client->send(json_encode($response));
+                // $client->send(json_encode($response));
                 continue;
             }
             $client->send(json_encode($response)); // ส่งข้อความพร้อมเวลาให้ไคลเอนต์
@@ -70,10 +70,10 @@ class Chat implements MessageComponentInterface {
 $server = IoServer::factory(
     new HttpServer(
         new WsServer(
-            new Chat()
+            new Main()
         )
     ),
-    8080
+    8090
 );
 
 $server->run();

@@ -19,6 +19,10 @@
 2. ใช้ Composer ติดตั้ง Ratchet:
     ```bash
     php composer.phar require cboden/ratchet
+    หรือ
+    composer require cboden/ratchet
+    หรือ
+    composer install
     ```
 
 ### 2. สร้างเซิร์ฟเวอร์ WebSocket
